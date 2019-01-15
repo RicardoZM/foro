@@ -1,0 +1,82 @@
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" th:href="@{/css/verMensaje.css}"></link>	
+</head>
+<body> 
+        <div class="row" id="recuadro">
+            <div class="text-center col-lg-2" style="border-right: 1px solid #F2F4F4;">
+				<img th:if="${mensaje.mensajeDe.foto}" th:src="${mensaje.mensajeDe.foto}" class="rounded-circle" width="130" height="130" />
+				<img th:unless="${mensaje.mensajeDe.foto}" th:src="@{http://ssl.gstatic.com/accounts/ui/avatar_2x.png}" class="rounded-circle" width="130" height="130" /><br/>
+				<a th:href="@{'/usuario/perfilAjeno/' + ${mensaje.mensajeDe.id}}" style="text-decoration:none;color:black;">
+					<div th:utext="${mensaje.mensajeDe.alias}"></div>
+				</a>
+            </div>
+            <div class="col-lg-10">
+                    <strong><div th:utext="${mensaje.titulo}" class="card-title"></div></strong>
+                    <div th:utext="${mensaje.contenido}" class="card-text text-justify "></div>
+					<div class="icono">
+                        <i class="fas fa-reply fa-lg" id="responder"></i>
+                    </div>     
+            </div>
+        </div>
+		<div id="oculto">
+			<hr/>
+			<form th:action="@{'/usuario/mensajePrivado/' + ${mensaje.mensajeDe.id}}" method="POST" name="mensajePrivado" id="mensajePrivado" class="form-horizontal align-content-center" role="form">
+				<div class="form-group">
+				  <label class="col-lg-4 control-label">Título:</label>
+				  <div class="col-lg-8">
+					<input class="form-control" type="text" name="titulo" id="titulo" />
+					<div id="tituloPost"></div>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="col-lg-4 control-label">Mensaje:</label>
+				  <div class="col-lg-8">
+					<textarea class="form-control" name="contenido" id="contenido" rows="4" cols="50" placeholder="Escribe tu mensaje aquí"></textarea>
+					<div id="mensaje"></div>
+				  </div>
+				</div>
+				<div class="form-group">   
+				  <div class="col-md-12">
+					<button type="submit" class="btn btn-info" value="Validar campos" onclick="return validarCampos()">Responder</button>
+					<input type="reset" class="btn btn-default" value="Cancelar" />
+				  </div>
+				</div>
+				<input type="hidden" id="mensajeDe" name="mensajeDe" th:value="${session.userData.id}" />
+			</form>
+		</div>
+</body>
+
+<script>
+$(document).ready(function(){
+	$("#oculto").hide();
+	$("#responder").click(function(){
+		$("#oculto").show();
+	});
+});
+function validarCampos(){
+    var titulo = document.getElementById("titulo").value;
+    var testTitulo = /^[\W\s\w]{1,50}$/i;
+
+    var mensaje = document.getElementById("contenido").value;
+    var testMensaje = /^[\W\s\w]{1,200}$/i;
+
+    if (!testTitulo.test(titulo)) {
+        document.getElementById("tituloPost").innerHTML = "Este campo no debe de estar vacío ni superar los 100 caracteres";
+		return false;
+    } else {
+        document.getElementById("tituloPost").innerHTML ="";
+
+    }
+
+     if (!testMensaje.test(mensaje)) {
+         document.getElementById("mensaje").innerHTML = "Este campo no debe de estar vacío ni superar los 2000 caracteres";
+         return false;
+    } else {
+        document.getElementById("mensaje").innerHTML ="";
+
+    }
+     return true;
+    }
+</script>

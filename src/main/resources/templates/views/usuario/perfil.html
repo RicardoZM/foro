@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- CSS para la página del perfil-->
+  <link rel="stylesheet" th:href="@{/css/perfil.css}" />
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
+</head>
+
+<script>
+	function previewFile() {
+	  var preview = document.getElementById("imagenPerfil");
+	  var file    = document.querySelector('input[type=file]').files[0];
+	  var reader  = new FileReader();
+	  
+
+	  reader.onloadend = function () {
+		preview.src = reader.result;
+		document.getElementById("imgString").value = reader.result;
+	  }
+	  
+	  var validFormat = false;
+	  
+	  if(file.name.toLowerCase().endsWith(".png")){
+		validFormat = true;
+	  }else if(file.name.toLowerCase().endsWith(".jpg")){
+		validFormat = true;
+	  }else if(file.name.toLowerCase().endsWith(".jpeg")){
+		validFormat = true;
+	  }
+	  
+	  if(!validFormat){
+		alert("El archivo no es válido, solo están permitidos los formatos .png, .jpg y .jpeg");
+		return;
+	  }
+
+	  if (file) {
+		reader.readAsDataURL(file);
+	  } else {
+		preview.src = "";
+	  }
+	}
+	
+	function validarNombre(){
+		var esValido = true;
+		var nombre = document.getElementById("nombre").value;
+		var nombreBien = new RegExp ("^([a-záéíóúçA-ZÁÉÍÓÚç]{2,20})$");
+		var comprobarNombre = nombreBien.test(nombre);
+		if(comprobarNombre == false){
+			esValido = false;
+			document.getElementById("nombre").focus();
+			document.perfil.nombre.style.color="red";
+			document.getElementById("errorNombre").innerHTML="El nombre debe contener de 2 a 20 letras";
+		}else{
+			esValido = true;
+			document.perfil.nombre.style.color="";
+			document.getElementById("errorNombre").innerHTML="";
+		}
+		return esValido;
+	}
+	
+	function validarPrimerApellido(){
+		var esValido = true;
+		var primerApellido = document.getElementById("primerApellido").value;
+		var primerApellidoBien = /^[a-záéíóúçA-ZÁÉÍÓÚ]{2,40}$/;
+		var comprobarPrimerApellido = primerApellidoBien.test(primerApellido);
+		if(comprobarPrimerApellido == false){
+			esValido = false;
+			document.getElementById("primerApellido").focus();
+			document.perfil.primerApellido.style.color="red";
+			document.getElementById("errorPrimerApellido").innerHTML="El primer apellido no es válido";
+		}else{
+			esValido = true;
+			document.perfil.primerApellido.style.color="";
+			document.getElementById("errorPrimerApellido").innerHTML="";
+		}
+		return esValido;
+	}
+	
+	function validarSegundoApellido(){
+		var esValido = true;
+		var segundoApellido = document.getElementById("segundoApellido").value;
+		var segundoApellidoBien = /^([a-záéíóúçA-ZÁÉÍÓÚ]{2,40})?$/;
+		var comprobarSegundoApellido = segundoApellidoBien.test(segundoApellido);
+		if(comprobarSegundoApellido == false){
+			esValido = false;
+			document.getElementById("segundoApellido").focus();
+			document.perfil.segundoApellido.style.color="red";
+			document.getElementById("errorSegundoApellido").innerHTML="El segundo apellido no es válido";
+		}else{
+			esValido = true;
+			document.perfil.segundoApellido.style.color="";
+			document.getElementById("errorSegundoApellido").innerHTML="";
+		}
+		return esValido;
+	}
+	
+	function validarTelefono(){
+		var esValido = true;
+		var telefono = document.getElementById("telefono").value;
+		var telefonoBien = new RegExp (/^([0-9]{9})?$/);
+		var comprobarTelefono = telefonoBien.test(telefono);
+		if(comprobarTelefono == false){
+			esValido = false;
+			document.getElementById("telefono").focus();
+			document.perfil.telefono.style.color="red";
+			document.getElementById("errorTelefono").innerHTML="El telefono debe tener 9 números";
+		}else{
+			esValido = true;
+			document.perfil.telefono.style.color="";
+			document.getElementById("errorTelefono").innerHTML="";
+		}
+		return esValido;
+	}
+	
+	function validarEmail(){
+		var esValido = true;
+		var email = (document.getElementById("email").value).toLowerCase();
+		var emailBien = new RegExp ("^[a-z0-9]{1}[a-z0-9.-_]+@[a-z]+(\\.[a-z]{2,4})+$");
+		var comprobarEmail = emailBien.test(email);
+		if(comprobarEmail == false){
+			esValido = false;
+			document.getElementById("email").focus();
+			document.perfil.email.style.color="red";
+			document.getElementById("errorEmail").innerHTML="El email no es válido";
+		}else{
+			esValido = true;
+			document.perfil.email.style.color="";
+			document.getElementById("errorEmail").innerHTML="";
+		} 
+		return esValido;
+	}
+	
+	function validarPersona(){
+		var nombre = document.getElementById("nombre").value;
+		var primerApellido = document.getElementById("primerApellido").value;
+		var segundoApellido = document.getElementById("segundoApellido").value;
+		var telefono = document.getElementById("telefono").value;
+		var email = document.getElementById("email").value;
+		
+
+		
+		if(validarNombre() != true){
+			return false;
+		}else if(validarPrimerApellido() != true){
+				return false;
+		}else if(validarSegundoApellido() != true){
+				return false;
+		}else if(validarTelefono() != true){
+			return false;	
+		}else if(validarEmail() != true){
+				return false;
+		}
+		else{
+			return true;
+		}	        
+	}
+	$(document).ready(function(){
+		$("#borrarUsuario").on("click", function(){
+			$("#mi-modal").modal('show');
+		});
+
+		$("#modal-btn-cancelar").on("click", function(){
+			$("#mi-modal").modal('hide');
+		});
+	});
+	
+	function validarContrasena(){
+		var esValido = true;
+		var contrasena = document.getElementById("contrasena").value;
+		var contrasenaBien = new RegExp (/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/);
+		var comprobarContrasena = contrasenaBien.test(contrasena);
+		if(comprobarContrasena == false){
+			esValido = false;
+			document.getElementById("contrasena").focus();
+			document.formBorrarUsuario.contrasena.style.color="red";
+		}else{
+			esValido = true;
+			document.formBorrarUsuario.contrasena.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarComprobarContrasenas(){
+		var esValido = true;
+		contrasena1 = document.getElementById("contrasena").value;
+		contrasena2 = document.getElementById("confirmarContrasena").value;
+
+		if (contrasena1 != contrasena2){
+			esValido = false;
+			document.getElementById("confirmarContrasena").focus();
+			document.formBorrarUsuario.confirmarContrasena.style.color="red";
+		}else{
+			esValido = true;
+			document.formBorrarUsuario.confirmarContrasena.style.color="";
+		}
+		return esValido;
+	} 
+	
+	function validarContrasenas(){
+		var contrasena = document.getElementById("contrasena").value;
+		var confirmarContrasena = document.getElementById("confirmarContrasena").value;
+		
+		if(validarContrasena() != true){
+			return false;
+		}else if(validarComprobarContrasenas() != true){
+			return false;
+		}
+		else{
+			changePassword();
+			return true;
+		}
+	}
+	
+	function hashearPassword(plainPassword){
+		return md5(plainPassword);
+	}
+	
+	function changePassword(){
+		document.getElementById("contrasena").value = hashearPassword(document.getElementById("contrasena").value);
+	}
+</script>
+
+<body>
+  <div class="card-body">
+    <div class="row">
+
+		<div class="col-md-3">
+			<div class="text-center">
+				<img th:if="${session.userData.foto}" th:src="${session.userData.foto}" id="imagenPerfil" height="166" width="166" alt="Image preview..." />
+				<img th:unless="${session.userData.foto}" th:src="@{http://ssl.gstatic.com/accounts/ui/avatar_2x.png}" id="imagenPerfil" height="166" alt="Image preview..." /><br/>
+				<input type="file" style="width: 175px;" onchange="previewFile()"></input>
+			</div>				
+			<div class="text-center">
+				<label class="col-md-3 control-label"></label>
+				<div th:if="${session.nmensajes == 0}">
+					<div class="text-center">
+						<a th:href="@{/usuario/buzonMensajes}"><button type="button" class="btn btn-secondary" id="buzonMensajes" value="Buzon de mensajes">Buzón de mensajes</button></a>
+					</div>
+				</div>
+				<div th:unless="${session.nmensajes == 0}">
+					<div class="text-center">
+						<a th:href="@{/usuario/buzonMensajes}"><button type="button" class="btn btn-secondary" id="buzonMensajes" value="Buzon de mensajes">Buzón de mensajes (<td th:text="${session.nmensajes}"></td>)</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+      <div class="col-md-9 personal-info">
+        <h3 style="margin-top:10px;" class="col-lg-12">Datos de usuario</h3>
+
+        <form th:action="@{'/perfil'}" method="POST" name="perfil" id="perfil" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-lg-4 control-label"><strong>Alias:</strong></label>
+            <div class="col-lg-8">
+              <td th:text="${session.userData.alias}"></td>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-4 control-label"><strong>Nombre:</strong></label>
+            <div class="col-lg-8">
+              <input class="form-control" id="nombre" name="nombre" type="text" th:value="${session.userData.nombre}" /><span id="errorNombre"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-4 control-label"><strong>Primer apellido:</strong></label>
+            <div class="col-lg-8">
+              <input class="form-control" id="primerApellido" name="primerApellido" type="text" th:value="${session.userData.primerApellido}" /><span id="errorPrimerApellido"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-4 control-label"><strong>Segundo Apellido:</strong></label>
+            <div class="col-lg-8">
+              <input class="form-control" id="segundoApellido" name="segundoApellido" type="text" th:value="${session.userData.segundoApellido}" /><span id="errorSegundoApellido"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-4 control-label"><strong>Email:</strong></label>
+            <div class="col-lg-8">
+              <input class="form-control" id="email" name="email" type="text" th:value="${session.userData.email}" /><span id="errorEmail"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label"><strong>Telefono:</strong></label>
+            <div class="col-md-8">
+              <input class="form-control" id="telefono" name="telefono" type="text" th:value="${session.userData.telefono}" /><span id="errorTelefono"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label"><strong>Sexo:</strong></label>
+            <div class="col-md-8">
+              <td th:text="${session.userData.sexo}"></td>
+            </div>
+          </div>
+		  <div class="form-group">
+			<div class="col-md-8">
+				<a th:href="@{/usuario/cambiarContrasena}" style="text-decoration:none;">Cambiar contrasena</a>
+			</div>
+		  </div>
+		  <div class="form-group">
+		  </div>
+		  <input th:if="${session.userData.foto}" type="hidden" id="imgString" name="imgString" th:value="${session.userData.foto}" />
+		  <input th:unless="${session.userData.foto}" type="hidden" id="imgString" name="imgString" value="" />
+
+          <div class="form-group">
+            <div class="col-md-12">
+			  <button type="submit" class="btn btn-info botones" id="guardarCambios" value="Guardar Cambios" onclick="return validarPersona()">Guardar Cambios</button>
+			  <button type="button" id="borrarUsuario" class="btn btn-secondary">Borrar Usuario</button>
+            </div>
+          </div>
+        </form>
+		<!-- Ventana modal -->
+		<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="mi-modal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">¿Estás seguro de que quieres borrar tu cuenta?</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<form action="#" th:action="@{'/borrarUsuario/' + ${session.userData.id}}" method="POST" name="formBorrarUsuario" id="formBorrarUsuario" class="form-horizontal">
+							  <div class="form-group">
+								<label class="col-lg-4 control-label"><strong>Contraseña</strong></label>
+								<div class="col-lg-8">
+									<input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña"/>
+								</div>
+							  </div>
+							  <div class="form-group">
+								<label class="col-lg-4 control-label"><strong>Confirmar contraseña</strong></label>
+								<div class="col-lg-8">
+									<input type="password" class="form-control" id="confirmarContrasena" name="confirmarContrasena" placeholder="Confirmar contraseña"/>
+								</div>
+							  </div>
+							  <div class="modal-footer">
+								<button type="submit" class="btn btn-info" id="confirmarBorrarUsuario" onclick="return validarContrasenas()">Confirmar</button>
+								<button type="button" class="btn btn-secondary" id="modal-btn-cancelar">Cancelar</button>
+							  </div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  </hr>
+  <div class="card-body">
+    <h3 class="text-center">Estadísticas</h3>
+    <div class="row">
+    <div class="col-md-6 form-group text-center">
+        <label><strong>Puntos</strong></label>
+        <div>
+          <td th:text="${session.userData.puntos}"></td>
+        </div>
+      </div>
+      <div class="col-md-6 form-group text-center">
+        <label><strong>Nº posts</strong></label>
+        <div>
+          <td th:text="${session.todosPost}"></td>
+        </div>
+      </div>
+            <div class="col-md-6 form-group text-center">
+        <label><strong>Nº respuestas</strong></label>
+        <div>
+          <td th:text="${session.todasRespuestas}"></td>
+        </div>
+      </div>
+      <div class="col-md-6 form-group text-center">
+        <label><strong>Mejor respuesta</strong></label>
+       <div th:if="${session.mejorRespuesta == null}">
+          <td th:text="0"></td>
+        </div>
+        <div th:unless="${session.mejorRespuesta == null}">
+          <td th:text="${session.mejorRespuesta}"></td>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

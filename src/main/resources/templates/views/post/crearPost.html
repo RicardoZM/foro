@@ -1,0 +1,59 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" th:href="@{/css/post.css}"></link>
+</head>
+
+<div class="col-md-12 personal-info post">
+  <h3 style="padding-top:10px;" class="col-lg-4">Crear Post</h3>
+
+  <form th:action="@{'/post/crea'}" method="POST" name="crea" id="crea" class="form-horizontal align-content-center" role="form">
+    <div class="form-group">
+      <label class="col-lg-4 control-label">Título:</label>
+      <div class="col-lg-8">
+        <input class="form-control" type="text" name="titulo" id="titulo" />
+        <div id="tituloPost"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-4 control-label">Mensaje:</label>
+      <div class="col-lg-8">
+        <textarea class="form-control" name="contenido" id="contenido" rows="4" cols="50" placeholder="Escribe tu mensaje aquí" ></textarea>
+        <div id="mensaje"></div>
+      </div>
+    </div>
+    <div class="form-group">   
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-info" value="Validar campos" onclick="return validarCampos()" style="margin-bottom: 5px;">Publicar nuevo tema</button>
+        <input type="reset" class="btn btn-default" value="Cancelar" style="margin-bottom: 5px;"/>
+      </div>
+    </div>
+    <input type="hidden" id="categoria" name="categoria" th:value="${session.categoria}" />
+  </form>
+</div>
+
+<script>
+  function validarCampos(){
+    var titulo = document.getElementById("titulo").value;
+    var testTitulo = /^[\W\s\w]{1,100}$/i;
+
+    var mensaje = document.getElementById("contenido").value;
+    var testMensaje = /^[\W\s\w]{1,2000}$/i;
+
+    if (!testTitulo.test(titulo)) {
+        document.getElementById("tituloPost").innerHTML = "Este campo no debe de estar vacío ni superar los 100 caracteres";
+		return false;
+    } else {
+        document.getElementById("tituloPost").innerHTML ="";
+
+    }
+
+     if (!testMensaje.test(mensaje)) {
+         document.getElementById("mensaje").innerHTML = "Este campo no debe de estar vacío ni superar los 2000 caracteres";
+         return false;
+    } else {
+     document.getElementById("mensaje").innerHTML ="";
+    }
+     return true;
+    }
+  
+</script>

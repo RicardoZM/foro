@@ -1,0 +1,366 @@
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+	<!-- Carga de fuentes de Font Awesome -->
+	<link rel="stylesheet" href="/css/fontawesome.min.css"/>
+	<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous"></link>-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"/>
+	
+	<!-- Carga de estilos css personalizados -->
+	<link rel="stylesheet" th:href="@{/css/estilos.css}" />
+	<link rel="stylesheet" th:href="@{/css/nav.css}" />
+	
+	<!-- Tipo de fuente -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
+
+	<script th:src="@{/js/buscador.js}"></script>
+	
+    <title>Hello, world!2</title>	
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light bordesRedondos " style="font-weight: bold;">
+	<a class="navbar-brand" href="/"><img src="/img/logo.png" style="height: 50px;width:100px;"/></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuprincipal" aria-controls="menuprincipal" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="menuprincipal">
+			<ul class="navbar-nav mr-auto mt-2 mt-md-0">
+				<li class="nav-item">
+					<a class="nav-link" id="foro" th:href="@{/}">Foro</a>
+				</li>
+				<li class="nav-item" id="buscador">
+					<a class="nav-link" style="cursor:pointer">Buscador</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="normas" th:href="@{/nav/normas}">Normas</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="rank" th:href="@{/nav/ranking}">Ranking</a>
+				</li>
+			</ul>
+
+					
+	<div th:switch="${session.user}">
+		<div id="invisible"><li th:case="null">
+
+
+	  <!-- Trigger the modal with a button -->
+		<li data-toggle="modal" data-target="#myModal">Registro o Login</li>
+		<i class="fas fa-sign-in-alt" data-toggle="modal" data-target="#myModal"></i>	
+
+	  <!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+    
+	
+
+      <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <nav>
+                            <div class="nav nav-tabs" role="tablist">
+                                <a class="nav-item nav-link active" data-toggle="tab" href="#nav-inicio-sesion" role="tab" aria-controls="nav-inicio-sesion">Inicio Sesión</a>
+                                <a class="nav-item nav-link" data-toggle="tab" href="#nav-registro" role="tab" aria-controls="nav-registro">Registro</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="nav-inicio-sesion" role="tabpanel">
+                                <!--Formulario de login-->
+                                <form th:action="@{'/login'}" method="POST">
+                                    <div class="form-group">
+                                        <label for="">Alias</label>
+                                        <input type="text" class="form-control" id="aliasLogin" name="alias" placeholder="Alias"/>
+                                        <label for="">Constraseña</label>
+                                        <input type="password" class="form-control" id="passwordLogin" name="contrasena" placeholder="Contraseña"/>
+                                    </div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-info" onclick="changePassword()">Confirmar</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+									</div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="nav-registro" role="tabpanel">
+                                <!--Formulario de registro-->
+                                <form th:action="@{'/registro'}" method="POST" name="registro" id="registro">
+                                    <div class="form-group">
+                                        <label for="">Alias*</label>
+										<input type="text" class="form-control" id="alias" name="alias" placeholder="Alias"/>
+										
+                                        <label for="">Contraseña*</label>
+                                        <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña"/>
+										
+                                        <label for="">Confirmar contraseña*</label>
+                                        <input type="password" class="form-control" id="confirmarContrasena" name="confirmarContrasena" placeholder="Confirmar contraseña"/>
+										
+                                        <label for="">Nombre*</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre"/>
+										
+                                        <label for="">Primer apellido*</label>
+										<input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Primer apellido"/>
+										
+                                        <label for="">Segundo apellido</label>
+										<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Segundo apellido"/>
+										
+                                        <label for="">Teléfono</label>
+										<input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono"/>
+										
+                                        <label for="">Email*</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email"/>
+										
+                                        <label for="">Sexo*</label><br/>
+										<input type="radio" name="sexo" id="selSexoH" value="Hombre" checked="checked"/>Hombre
+										<input type="radio" name="sexo" id="selSexoM" value="Mujer"/>Mujer
+										
+										<br/><br/>
+										<p class=""><strong>*</strong> Campos obligatorios</p>
+										<br/>
+										
+										<div id="error"></div>
+										
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-info" id="confirmar" value="Validar Persona" onclick="return validarPersona()">Confirmar</button>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+										</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		</li>
+		</div>
+
+				<div class="d-inline" th:case="'admin'">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav-item mr-0 mr-md-3 ml-0 ml-md-0 mt-2 mt-md-2">
+							<span th:text="'Hola ' +  ${session.user}"></span> 
+						</li>
+						<li class="nav-item mr-0 mr-md-3 ml-0 ml-md-0 mt-2 mt-md-2">
+							<a th:href="@{/usuario/logout}" style="text-decoration:none;">Cerrar sesión</a>
+						</li>
+						<li class="nav-item mt-2">
+							<a th:href="@{/usuario/perfil}" style="text-decoration:none;color:black;"><i class="fas fa-user fa-2x"><!--<p>Perfil</p>--></i></a>
+						</li>
+					</ul>
+				</div>
+				<div class="d-inline" th:case="*">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav-item mr-0 mr-md-3 ml-0 ml-md-0 mt-2 mt-md-2">
+							<span th:text="'Hola ' +  ${session.user}"></span> 
+						</li>
+						<li class="nav-item mr-0 mr-md-3 ml-0 ml-md-0 mt-2 mt-md-2">
+							<a th:href="@{/usuario/logout}" style="text-decoration:none;">Cerrar sesión</a>
+						</li>
+						<li class="nav-item mt-2">
+							<a th:href="@{/usuario/perfil}" style="text-decoration:none;color:black;"><i class="fas fa-user fa-2x"><!--<p>Perfil</p>--></i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+</nav>
+
+<!-- Barra de busqueda -->
+
+<div style="display: none; margin-top: 5px;" id="barra">
+	<form th:action="@{'/nav/buscador'}" method="POST" name="buscador" id="buscador">
+	<input type="text" id="filtro" name="filtro" class="form-control" placeholder="Buscar..." style="margin-bottom:5px;"/>
+		<button class="btn estiloBarra" type="submit"><i class="fas fa-search fa-lg" style="color:#cacdd1;"></i></button>
+	</form>
+</div>
+
+<script>
+	function hashearPassword(plainPassword){
+		return md5(plainPassword);
+	}
+	
+	function changePassword(){
+		document.getElementById("contrasena").value = hashearPassword(document.getElementById("contrasena").value);
+		document.getElementById("confirmarContrasena").value = hashearPassword(document.getElementById("confirmarContrasena").value);
+		document.getElementById("passwordLogin").value = hashearPassword(document.getElementById("passwordLogin").value);
+	}
+	
+	function validarAlias(){
+		var esValido = true;
+		var alias = (document.getElementById("alias").value).toLowerCase();
+		var aliasBien = new RegExp ("^([a-záéíóúçA-ZÁÉÍÓÚç0-9]{2,20})$");
+		var comprobarAlias = aliasBien.test(alias);
+		if(comprobarAlias == false){
+			esValido = false;
+			document.getElementById("alias").focus();
+			document.registro.alias.style.color="red";
+			document.getElementById("error").innerHTML="El alias debe tener entre 2 y 20 caracteres alfanuméricos";
+		}else{
+			esValido = true;
+			document.registro.alias.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarContrasena(){
+		var esValido = true;
+		var contrasena = document.getElementById("contrasena").value;
+		var contrasenaBien = new RegExp (/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/);
+		var comprobarContrasena = contrasenaBien.test(contrasena);
+		if(comprobarContrasena == false){
+			esValido = false;
+			document.getElementById("contrasena").focus();
+			document.registro.contrasena.style.color="red";
+			document.getElementById("error").innerHTML="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula";
+		}else{
+			esValido = true;
+			document.registro.contrasena.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarComprobarContrasenas(){
+		var esValido = true;
+		contrasena1 = document.getElementById("contrasena").value;
+		contrasena2 = document.getElementById("confirmarContrasena").value;
+
+		if (contrasena1 != contrasena2){
+			esValido = false;
+			document.getElementById("confirmarContrasena").focus();
+			document.registro.confirmarContrasena.style.color="red";
+			document.getElementById("error").innerHTML="Las contraseñas no son iguales";
+		}else{
+			esValido = true;
+			document.registro.confirmarContrasena.style.color="";
+		}
+		return esValido;
+	} 
+
+	function validarNombre(){
+		var esValido = true;
+		var nombre = document.getElementById("nombre").value;
+		var nombreBien = new RegExp ("^([a-záéíóúçA-ZÁÉÍÓÚç]{2,20})$");
+		var comprobarNombre = nombreBien.test(nombre);
+		if(comprobarNombre == false){
+			esValido = false;
+			document.getElementById("nombre").focus();
+			document.registro.nombre.style.color="red";
+			document.getElementById("error").innerHTML="El nombre debe contener de 2 a 20 letras";
+		}else{
+			esValido = true;
+			document.registro.nombre.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarPrimerApellido(){
+		var esValido = true;
+		var primerApellido = document.getElementById("primerApellido").value;
+		var primerApellidoBien = /^[a-záéíóúçA-ZÁÉÍÓÚ]{2,40}$/;
+		var comprobarPrimerApellido = primerApellidoBien.test(primerApellido);
+		if(comprobarPrimerApellido == false){
+			esValido = false;
+			document.getElementById("primerApellido").focus();
+			document.registro.primerApellido.style.color="red";
+			document.getElementById("error").innerHTML="El primer apellido no es válido";
+		}else{
+			esValido = true;
+			document.registro.primerApellido.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarSegundoApellido(){
+		var esValido = true;
+		var segundoApellido = document.getElementById("segundoApellido").value;
+		var segundoApellidoBien = /^([a-záéíóúçA-ZÁÉÍÓÚ]{2,40})?$/;
+		var comprobarSegundoApellido = segundoApellidoBien.test(segundoApellido);
+		if(comprobarSegundoApellido == false){
+			esValido = false;
+			document.getElementById("segundoApellido").focus();
+			document.registro.segundoApellido.style.color="red";
+			document.getElementById("error").innerHTML="El segundo apellido no es válido";
+		}else{
+			esValido = true;
+			document.registro.segundoApellido.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarTelefono(){
+		var esValido = true;
+		var telefono = document.getElementById("telefono").value;
+		var telefonoBien = new RegExp (/^([0-9]{9})?$/);
+		var comprobarTelefono = telefonoBien.test(telefono);
+		if(comprobarTelefono == false){
+			esValido = false;
+			document.getElementById("telefono").focus();
+			document.registro.telefono.style.color="red";
+			document.getElementById("error").innerHTML="El telefono debe tener 9 números";
+		}else{
+			esValido = true;
+			document.registro.telefono.style.color="";
+		}
+		return esValido;
+	}
+	
+	function validarEmail(){
+		var esValido = true;
+		var email = (document.getElementById("email").value).toLowerCase();
+		var emailBien = new RegExp ("^[a-z0-9]{1}[a-z0-9.-_]+@[a-z]+(\\.[a-z]{2,4})+$");
+		var comprobarEmail = emailBien.test(email);
+		if(comprobarEmail == false){
+			esValido = false;
+			document.getElementById("email").focus();
+			document.registro.email.style.color="red";
+			document.getElementById("error").innerHTML="El email no es válido";
+		}else{
+			esValido = true;
+			document.registro.email.style.color="";
+		} 
+		return esValido;
+	}
+	
+	function validarPersona(){
+		var alias = document.getElementById("alias").value;
+		var contrasena = document.getElementById("contrasena").value;
+		var confirmarContrasena = document.getElementById("confirmarContrasena").value;
+		var nombre = document.getElementById("nombre").value;
+		var primerApellido = document.getElementById("primerApellido").value;
+		var segundoApellido = document.getElementById("segundoApellido").value;
+		var telefono = document.getElementById("telefono").value;
+		var email = document.getElementById("email").value;
+		
+
+		
+		if(validarAlias() != true){
+			return false;
+		}else if(validarContrasena() != true){
+				return false;
+		}else if(validarComprobarContrasenas() != true){
+				return false;
+		}else if(validarNombre() != true){
+				return false;	
+		}else if(validarPrimerApellido() != true){
+				return false;
+		}else if(validarSegundoApellido() != true){
+				return false;
+		}else if(validarTelefono() != true){
+			return false;	
+		}else if(validarEmail() != true){
+				return false;
+		}
+		else{
+			changePassword();
+			return true;
+		}	        
+	}
+</script>

@@ -1,0 +1,42 @@
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" th:href="@{/css/post.css}"></link>
+</head>
+
+  <div class="col-md-12 personal-info post">
+    <h3 style="padding-top:10px;" class="col-lg-4">Respuesta</h3>
+  <!--Cambiar el action del formulario-->
+    <form th:action="@{'/respuesta/crearRespuesta/' + ${post.id}}" method="POST" name="respuesta" id="respuesta" class="form-horizontal align-content-center" role="form">
+      <div class="form-group">
+        <label class="col-lg-4 control-label">Mensaje de respuesta:</label>
+        <div class="col-lg-8">
+          <textarea class="form-control" name="contenido" id="contenido" rows="4" cols="50" placeholder="Escribe tu respuesta aquí"></textarea>
+          <div id="respuestaPost"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-info" value="Validar campos" onclick="return validar()">Responder</button>
+          <input type="reset" class="btn btn-default" value="Cancelar" />
+        </div>
+      </div>
+	  <input type="hidden" id="respuestaSuya" name="respuestaSuya" th:value="${session.userData.id}" />
+    </form>
+  </div>
+  
+  <script>
+    function validar() {
+      var valido = true;
+      var contenido = document.getElementById("contenido").value;
+      var testContenido = /^[\W\s\w]{1,2000}$/i;
+  
+      if (testContenido.test(contenido)) {
+        valido = true;
+      } else {
+        valido = false;
+        document.getElementById("respuestaPost").innerHTML = "Este campo no debe de estar vacío ni superar los 2000 caracteres";
+      }
+
+      return valido;
+    }
+  </script>

@@ -1,0 +1,47 @@
+body {
+	background-color: #e3fdfd;
+}
+.bg-light {
+	background-color: #71c9ce !important;
+
+}
+.bienvenidos{
+	background: #a6e3e9;
+	background-size: cover;
+	height: 100vh; 
+}
+
+#menuprincipal{
+  clear: both; 
+}
+                   
+td{
+	margin-left: 20px;
+	display: flex;
+}
+
+li{
+	list-style: none;
+}
+
+.footer{
+	background-color: #71c9ce;
+}
+
+.link {
+	color: black;
+}
+
+i {
+	text-decoration: none;
+	color: black;
+}
+
+.estiloBarra {
+	float:right;
+	margin-top:-41px;
+	margin-right:-20px;
+	background:none;
+}
+
+/*# sourceMappingURL=estilos.css.map */

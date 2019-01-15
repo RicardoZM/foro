@@ -1,0 +1,48 @@
+th{
+	text-align: center;
+}
+
+.redacciones {
+	text-align: left;
+}
+
+.tema{
+	width: 20%;
+	text-align: left;
+}
+
+.nuevotema{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#foro{
+	color: black;
+}
+
+.apartado {
+	background-color: #cbf1f5;
+	text-align: left;
+}
+
+.escrito{
+	width: 150px;
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+	overflow: hidden;
+}
+
+.titulo{
+	width: 700px;
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+	overflow: hidden;
+}
+
+.post {
+	background-color: #d6f5f9;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}

@@ -1,0 +1,43 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/ranking.css}" />
+    <link rel="stylesheet" th:href="@{/css/jquery.dataTables.css}" />
+	<script th:src="@{/js/jquery.dataTables.js}"></script>
+</head>
+<div class="table-responsive">
+<table id="ranking" class="table table-hover">
+    <thead class="table-info">
+        <tr>
+            <th>Posición</th>
+            <th>Alias</th>
+            <th>Nombre</th>
+            <th>Puntuación</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="u,pos: ${usuarios}">
+            <th th:text="${pos.count}"></th>
+			<th>
+				<a th:href="@{'/usuario/perfilAjeno/' + ${u.id}}" style="text-decoration:none;color:black;">
+					<div th:text="${u.alias}">	
+					</div>
+				</a>
+			</th>
+            <th th:text="${u.nombre}"></th>
+            <th th:text="${u.puntos}"></th>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<script>
+$('#ranking').DataTable( {
+    responsive: true,
+    info :false,
+	language : {
+		"url": "/js/spanish.json"
+	}
+} );
+
+</script>
